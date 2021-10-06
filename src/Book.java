@@ -9,7 +9,8 @@ public class Book extends Item{
         this.authors = authors;
     }
 
-    public Book(String title, double regularPrice, LocalDate releaseDate, int quantity, int itemID, ArrayList<String> authors) {
+    public Book(String title, double regularPrice, LocalDate releaseDate, int quantity,
+                int itemID, ArrayList<String> authors) {
         super(title, regularPrice, releaseDate, quantity, itemID);
         this.authors = authors;
     }
@@ -26,5 +27,15 @@ public class Book extends Item{
         }
         return super.toString() +
                 "\n\tAuthors:" + authorNames;
+    }
+
+    @Override
+    public double getPrice(LocalDate sellDate) {
+        return getRegularPrice() - getRegularPrice() * getDiscount();
+    }
+
+    @Override
+    public Item makeCopy() {
+        return new Book(getTitle(), getRegularPrice(), getReleaseDate(), getQuantity(), getItemID(), authors);
     }
 }

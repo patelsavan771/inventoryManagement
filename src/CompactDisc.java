@@ -30,4 +30,9 @@ public class CompactDisc extends Item{
                 "\n\tRecord Label: " + recordLabel;
     }
 
+    @Override
+    public Item makeCopy() {
+        return new CompactDisc(getTitle(), getRegularPrice(), getReleaseDate(),
+                                    getQuantity(), getItemID(), bandName, recordLabel);
+    }
 }

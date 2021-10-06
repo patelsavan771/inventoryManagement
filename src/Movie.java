@@ -24,4 +24,10 @@ public class Movie extends Item {
                 "\n\tDirector: " + director +
                 "\n\tProducer: " + producer;
     }
+
+    @Override
+    public Item makeCopy() {
+        return new Movie(getTitle(), getRegularPrice(), getReleaseDate(),
+                getQuantity(), getItemID(), director, producer);
+    }
 }

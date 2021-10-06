@@ -3,11 +3,11 @@ import java.util.ArrayList;
 
 public class Store {
     private ArrayList<Item> inventory;
-    private double totalSalesValue = 0;
-    int totalNumberOfSales = 0;
+    private double totalSalesValue = 0.0;
+    private int totalNumberOfSales = 0;
 
     public Store() {
-        this.inventory = new ArrayList<Item>();
+        this.inventory = new ArrayList<>();
     }
 
     public void addItem(Item i) {
@@ -19,10 +19,10 @@ public class Store {
         if(foundItem == null) {
             return false;
         }
-        int value = foundItem.sell(quantity, sellDate);
+        double value = foundItem.sell(quantity, sellDate);
         if(value > 0) {
             this.totalNumberOfSales++;
-            this.totalSalesValue++;
+            this.totalSalesValue += value;
             return true;
         }
         return false;
@@ -44,7 +44,7 @@ public class Store {
     public Item checkForItem(int itemID) {
         for(Item i : this.inventory) {
             if(i.getItemID() == itemID) {
-                return new Item(i.getTitle(), i.getRegularPrice(), i.getReleaseDate(), i.getQuantity(), itemID); //copy of item
+                return i.makeCopy(); //copy of item
             }
         }
         return null;

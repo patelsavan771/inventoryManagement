@@ -32,4 +32,19 @@ public class Game extends Item {
                 "\n\tStudio: " + studio +
                 "\n\tDiscontinued: " + discontinued;
     }
+
+    @Override
+    public double getPrice(LocalDate sellDate) {
+        double price = getRegularPrice();
+        if(isDiscontinued()) {
+            price *= 20;
+        }
+        return price;
+    }
+
+    @Override
+    public Item makeCopy() {
+        return new Game(getTitle(), getRegularPrice(), getReleaseDate(), getQuantity(),
+                getItemID(), studio, discontinued);
+    }
 }

@@ -1,6 +1,7 @@
 import java.time.LocalDate;
+import java.time.Period;
 
-public class Item {
+public abstract class Item {
     private String title;
     private double regularPrice;
     private int itemID;
@@ -55,12 +56,13 @@ public class Item {
     }
 
     public double getPrice(LocalDate sellDate) {
-//    g.  It computes the difference between the item’s releaseDate
-//        and sellDate (hint: use a java.time.Period), and if the
-//        item is over a year old it returns the item’s regular price,
-//        discounted by 50%, discounted further by the Item’s discount
-//        variable. Otherwise, it returns the item’s regular price
-//        discounted by the given discount.
+        double price = getRegularPrice();
+        Period difference = Period.between(releaseDate, sellDate);
+        if(difference.getYears() >= 1) {
+            price /= 2;
+        }
+        price = price - price * discount;
+        return price;
     }
 
 
@@ -83,8 +85,15 @@ public class Item {
     //      so we return 0 and do nothing else.
     public double sell(int amount, LocalDate sellDate) {
         //If sellDate is before releaseDate, the sale cannot be made so simply return 0.
-        if(amount > 0 && amount <= getQuantity()) {
+        Period difference = Period.between(releaseDate, sellDate);
+        if(difference.getYears() < 0 || difference.getMonths() < 0 || difference.getDays() < 0) {
+            return 0;
+        }
 
+        if(amount > 0 && amount <= quantity) {
+            this.quantity -= amount;
+            double totalSale = amount * getPrice(sellDate);
+            return totalSale;
         }
         return 0;
     }
@@ -117,6 +126,7 @@ public class Item {
     //l.	makeCopy, which returns a deep copy of the Item object (hint: should this be defined here?
     //      What is an Item, really? Maybe this should be deferred to concrete classes?).
 
+    public abstract Item makeCopy();
 
 }
 
